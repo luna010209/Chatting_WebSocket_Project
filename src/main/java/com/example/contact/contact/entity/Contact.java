@@ -2,10 +2,7 @@ package com.example.contact.contact.entity;
 
 import com.example.contact.authentication.user.entity.UserInfo;
 import com.example.contact.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -15,6 +12,10 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class Contact extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
     private UserInfo sender;
     @ManyToOne

@@ -1,7 +1,5 @@
 package com.example.contact.authentication.token;
 
-import com.example.contact.authentication.user.dto.URequestDto;
-import com.example.contact.authentication.user.dto.UResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
