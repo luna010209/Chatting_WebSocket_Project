@@ -4,6 +4,8 @@ import com.example.contact.authentication.user.entity.UserInfo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @ToString
@@ -15,6 +17,7 @@ public class AIChat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne
@@ -22,4 +25,5 @@ public class AIChat {
 
     private boolean aiResponse;
     private boolean edit;
+    private LocalDateTime createdAt;
 }
