@@ -21,6 +21,17 @@ public class AiService {
     private final GeminiText geminiText;
 
     public String chatWithAI(PromptRequest request){
+        UserInfo currentUser = userComponent.userLogin();
+
+        AIChat userChat = AIChat.builder()
+                .user(currentUser)
+                .aiResponse(false)
+                .content(request.request())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        aiChatRepo.save(userChat);
+
         StringBuilder sb = new StringBuilder();
 
         List<AIChat> chats = aiChatRepo.findTop200ByOrderByCreatedAtDesc();
@@ -38,15 +49,6 @@ public class AiService {
 
         String rawAns = geminiText.basicText(prompt);
 
-        UserInfo currentUser = userComponent.userLogin();
-
-        AIChat userChat = AIChat.builder()
-                .user(currentUser)
-                .aiResponse(false)
-                .content(request.request())
-                .createdAt(LocalDateTime.now())
-                .build();
-
         AIChat aiResponse = AIChat.builder()
                 .user(currentUser)
                 .aiResponse(true)
@@ -54,7 +56,6 @@ public class AiService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        aiChatRepo.save(userChat);
         aiChatRepo.save(aiResponse);
 
         return rawAns;
