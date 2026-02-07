@@ -1,8 +1,8 @@
 package com.example.contact.aiGenerate;
 
+import com.example.contact.config.gemini.GeminiProperties;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
-import com.lingdingdong.api.config.gemini.GeminiProperties;
 import org.springframework.stereotype.Component;
 
 @Component

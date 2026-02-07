@@ -13,14 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AiSocket {
     private final AiService aiService;
-    @MessageMapping("/request")
-    @SendTo("/topic/request")
-    public String newRequest(String request){
-        return request;
-    }
 
-    @MessageMapping("/ai-response")
-    @SendTo("/topic/ai-response")
+    @MessageMapping("/ai-chat")
+    @SendTo("/topic/ai-chat")
     public String aiResponse(PromptRequest request){
         return aiService.chatWithAI(request);
     }
