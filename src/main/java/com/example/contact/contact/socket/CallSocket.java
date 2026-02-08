@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class CallSocket {
+public class   CallSocket {
     private final CallService callService;
 
     @MessageMapping("/signaling")

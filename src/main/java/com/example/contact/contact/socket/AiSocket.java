@@ -19,4 +19,5 @@ public class AiSocket {
     public String aiResponse(PromptRequest request){
         return aiService.chatWithAI(request);
     }
+
 }

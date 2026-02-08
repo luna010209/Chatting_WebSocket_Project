@@ -3,6 +3,7 @@ package com.example.contact.contact.service;
 import com.example.contact.aiGenerate.GeminiText;
 import com.example.contact.authentication.component.UserComponent;
 import com.example.contact.authentication.user.entity.UserInfo;
+import com.example.contact.contact.dto.AiChatResponse;
 import com.example.contact.contact.dto.PromptRequest;
 import com.example.contact.contact.entity.AIChat;
 import com.example.contact.contact.repo.AiChatRepo;
@@ -59,5 +60,11 @@ public class AiService {
         aiChatRepo.save(aiResponse);
 
         return rawAns;
+    }
+
+    public List<AiChatResponse> historyChat(){
+        UserInfo currentUser = userComponent.userLogin();
+        return aiChatRepo.findByUser(currentUser)
+                .stream().map(AiChatResponse::fromEntity).toList();
     }
 }

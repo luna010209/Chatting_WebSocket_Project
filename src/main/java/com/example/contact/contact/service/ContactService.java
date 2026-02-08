@@ -2,8 +2,10 @@ package com.example.contact.contact.service;
 
 import com.example.contact.authentication.component.UserComponent;
 import com.example.contact.authentication.user.entity.UserInfo;
+import com.example.contact.contact.dto.AiChatResponse;
 import com.example.contact.contact.dto.ContactDto;
 import com.example.contact.contact.dto.ContactRequestDto;
+import com.example.contact.contact.entity.AIChat;
 import com.example.contact.contact.entity.Contact;
 import com.example.contact.contact.repo.ContactRepo;
 import lombok.RequiredArgsConstructor;
