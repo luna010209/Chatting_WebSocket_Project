@@ -1,22 +1,15 @@
-.scrollable-bar {
-    height: 350px; /*Set the height of the container*/
-    overflow-y: scroll; /* Enable vertical scrolling */
-    /* border: 1px solid #ddd; */
-}
-.scrollable-bar::-webkit-scrollbar {
-    display: none; 
-}
-
 /* MAIN CONTAINER */
 .modern-chat {
-    height: 75vh;
-    background: #1e293b; /* slate navy */
-    border-radius: 20px;
+    flex: 1;
     display: flex;
     flex-direction: column;
+
+    background: #1e293b;
+    border-radius: 20px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-    overflow: hidden;
     backdrop-filter: blur(10px);
+
+    overflow: hidden;
 }
 
 /* HEADER */
@@ -142,3 +135,85 @@
     font-weight: 600;
     color: #f87171;
 }
+
+/* MAIN LAYOUT */
+.chat-layout {
+  flex: 1;                 /* instead of fixed height */
+  display: flex;
+  gap: 20px;
+  padding: 80px 40px 20px 40px; /* top padding replaces calc height */
+}
+
+
+/* CONTACT SIDEBAR */
+.contact-sidebar {
+  width: 280px;
+
+  background: #ffffff;                /* solid white */
+  border-radius: 18px;
+  padding: 20px;
+
+  border: 1px solid #e5e7eb;          /* soft gray border */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* CONTACT HEADER */
+.contact-title {
+  font-size: 20px;
+  font-weight: bolder;
+  margin-bottom: 16px;
+  color: #111827;     /* dark gray instead of black */
+}
+
+/* CONTACT LIST */
+.contact-scroll {
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* CONTACT ITEM */
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.contact-item:hover {
+  background: #f3f4f6;   /* soft gray */
+}
+
+/* CHAT AREA */
+.chat-area {
+  flex: 1;
+  display: flex;
+}
+
+/* Left contact list */
+.chat-layout > div:first-child {
+  width: 280px;
+}
+
+/* Chat area */
+.chat-area {
+  flex: 1;
+  display: flex;
+}
+
+
+.chat-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+

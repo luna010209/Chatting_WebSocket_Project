@@ -161,15 +161,20 @@ const Contact = () => {
 
 
     return (
-        <div style={{ fontFamily: "Nanum Myeongjo, serif" }}>
+        <div className="chat-page" style={{ fontFamily: "Nanum Myeongjo, serif" }}>
             <NavbarLogin />
-            <div className="fluid-container d-flex flex-wrap align-items-center justify-content-between p-3 pt-4 mt-5">
-                <div className={`${cover} col-12 col-lg-9 ps-5 pe-5 d-flex align-items-center justify-content-center`}>
-                    <img src="assets/contact/message.png" className="img-fluid" />
+            <div className="chat-layout">
+
+                <ListContact
+                    chatBox={chatBox}
+                />
+
+                <div className={`${cover} col-12 col-lg-9 d-flex align-items-center justify-content-center`}>
+                    <img src="assets/contact/topic.png" className="img-fluid rounded-4" />
                 </div>
 
-                <div className={`col-12 col-lg-9 ${chatDis}`}>
-                    <div className="modern-chat m-3">
+                <div className={`chat-area ${chatDis}`}>
+                    <div className="modern-chat">
 
                         {/* HEADER */}
                         <div className="modern-chat-header">
@@ -231,11 +236,6 @@ const Contact = () => {
 
                     </div>
                 </div>
-
-
-                <ListContact
-                    chatBox={chatBox}
-                />
             </div>
         </div>
 
