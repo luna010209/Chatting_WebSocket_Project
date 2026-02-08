@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import NavbarLogin from '../navbar/NavbarLogin'
 import './Contact.css';
 import { chatContent, receiver } from '../../services/contact/ContactService';
-import { confirmMes, editMes, newMes} from '../../services/contact/MesService';
+import { confirmMes, editMes, newMes } from '../../services/contact/MesService';
 import { Client } from '@stomp/stompjs';
 import { userLogin } from '../../services/user/UserService';
 import ListContact from './ListContact';
@@ -17,8 +17,8 @@ const Contact = () => {
     const scrollableDivRef = useRef(null);
     const setScrollableDivRef = node => {
         if (node) {
-        // Scroll to the bottom after the node is updated
-        node.scrollTop = node.scrollHeight;
+            // Scroll to the bottom after the node is updated
+            node.scrollTop = node.scrollHeight;
         }
         scrollableDivRef.current = node;
     };
@@ -28,7 +28,7 @@ const Contact = () => {
             userLoginId.current = res.data.id;
         })
     }, [token])
-    
+
 
     const client = useRef(new Client({
         brokerURL: "ws://localhost:3000/ws",
@@ -40,35 +40,35 @@ const Contact = () => {
             // console.log(frame);
             client.current.subscribe('/topic/new', res => {
                 const message = JSON.parse(res.body); // Parse the new message
-                if ((message.receiverId === userLoginId.current && message.senderId===Number(currentId.current)) || 
-                (message.senderId === userLoginId.current && message.receiverId===Number(currentId.current))) {
+                if ((message.receiverId === userLoginId.current && message.senderId === Number(currentId.current)) ||
+                    (message.senderId === userLoginId.current && message.receiverId === Number(currentId.current))) {
                     setListMes(prevMessages => [...prevMessages, message]);
                 }
             });
 
             client.current.subscribe('/topic/edit', res => {
                 const message = JSON.parse(res.body);
-                setListMes(prevMessages => 
-                    prevMessages.map(msg => 
+                setListMes(prevMessages =>
+                    prevMessages.map(msg =>
                         msg.id === message.id ? message : msg // Replace the old message with the updated one
                     )
                 )
-                
+
             })
-            
-            client.current.subscribe('/topic/confirm', (res)=>{
+
+            client.current.subscribe('/topic/confirm', (res) => {
                 const message = JSON.parse(res.body);
-                setListMes(prevMessages=>
-                    prevMessages.map(msg=>
-                        msg.id === message.id ? message: msg
+                setListMes(prevMessages =>
+                    prevMessages.map(msg =>
+                        msg.id === message.id ? message : msg
                     )
                 )
             })
-            client.current.subscribe('/topic/remove', (res)=>{
+            client.current.subscribe('/topic/remove', (res) => {
                 const mesDeleteId = JSON.parse(res.body);
-                setListMes(prevMessages=>
-                    prevMessages.filter(msg=>
-                        msg.id!==mesDeleteId
+                setListMes(prevMessages =>
+                    prevMessages.filter(msg =>
+                        msg.id !== mesDeleteId
                     )
                 )
             })
@@ -87,9 +87,9 @@ const Contact = () => {
         if (receiverId !== null) {
             chatContent(token, receiverId).then(res => {
                 setListMes(res.data);
-                res.data.forEach(mes=>{
-                    if (mes.receiverId=== Number(userLoginId.current) && !mes.confirm){
-                        confirmMes(client, {id: mes.id});
+                res.data.forEach(mes => {
+                    if (mes.receiverId === Number(userLoginId.current) && !mes.confirm) {
+                        confirmMes(client, { id: mes.id });
                     }
                 })
             })
@@ -99,7 +99,7 @@ const Contact = () => {
     const chatBox = (id, e) => {
         e.preventDefault();
         setReceiverId(id);
-        currentId.current=id;
+        currentId.current = id;
         setCover('d-none');
         setChatDis('');
         receiver(token, id).then(res => {
@@ -113,7 +113,7 @@ const Contact = () => {
         setCover('');
         setChatDis('d-none');
         setReceiverId(null);
-        currentId.current=null;
+        currentId.current = null;
     }
 
     const [mesContent, setMesContent] = useState('');
@@ -138,9 +138,9 @@ const Contact = () => {
             setMesContent('');
             setCancelEdit('d-none');
         }
-        listMes.map(mes=>{
-            if (mes.receiverId===Number(userLoginId.current) && !mes.confirm){
-                confirmMes(client, {id: mes.id});
+        listMes.map(mes => {
+            if (mes.receiverId === Number(userLoginId.current) && !mes.confirm) {
+                confirmMes(client, { id: mes.id });
             }
         })
     }
@@ -169,29 +169,26 @@ const Contact = () => {
                 </div>
 
                 <div className={`col-12 col-lg-9 ${chatDis}`}>
-                    <div className="border chat-container m-3">
-                        <div className="bg-secondary-subtle text-white p-2">
-                            <div className="d-flex flex-wrap">
-                                <div className="d-none d-lg-flex col-3 rounded p-2 text-bg-light align-items-center">
-                                    <div className="col-2 text-center me-1">
-                                        <a href="#" className="link-image" aria-haspopup="true">
-                                            <img src={receiverAvatar} className="img-fluid w-50 border" style={{ borderRadius: "50%" }} />
-                                        </a>
-                                    </div>
-                                    <div className="d-none d-lg-flex col-9">
-                                        {receiverName}
-                                    </div>
-                                </div>
-                                <div className="col-12 col-lg-6 d-flex text-dark fw-bold justify-content-center align-items-center">
-                                    Box chat
-                                </div>
-                                <div className="d-none d-lg-flex col-3 justify-content-end align-items-center border rounded p-2">
-                                    <a href="#" onClick={e => { startCall(receiverId, e) }} className="ps-2 pe-2"><i className="fa-solid fa-video"></i></a>
-                                    <a href="#" onClick={xmark} className="ps-2 pe-2"><i className="fa-solid fa-xmark"></i></a>
+                    <div className="modern-chat m-3">
+
+                        {/* HEADER */}
+                        <div className="modern-chat-header">
+                            <div className="modern-user">
+                                <img src={receiverAvatar} alt="" />
+                                <div>
+                                    <div className="modern-name">{receiverName}</div>
+                                    <div className="modern-status">Active now</div>
                                 </div>
                             </div>
+
+                            <div className="modern-actions">
+                                <i className="fa-solid fa-video" onClick={e => startCall(receiverId, e)}></i>
+                                <i className="fa-solid fa-xmark" onClick={xmark}></i>
+                            </div>
                         </div>
-                        <div className="scrollable-bar pt-3 p-2" ref={setScrollableDivRef}>
+
+                        {/* MESSAGE AREA */}
+                        <div className="modern-chat-body" ref={setScrollableDivRef}>
                             {listMes.map(message => {
                                 if (message.status === "Message") {
                                     return (
@@ -203,78 +200,40 @@ const Contact = () => {
                                             client={client}
                                         />
                                     );
-                                } else if (message.status === "Hangup") {
-                                    return (
-                                        <div key={message.id} className='ms-5 pb-2 d-flex flex-wrap justify-content-end align-items-center'>
-                                            <a className='border d-flex p-1 ps-3 pe-3 rounded align-items-center text-decoration-none text-secondary'>
-                                                <div className='me-2'>
-                                                    <img src="/assets/contact/finish-call.png" className='img-fluid' style={{ height: "40px", borderRadius: "50%" }} />
-                                                </div>
-                                                <div className='text-center'>
-                                                    <b className='fw-bold'>Finish call</b><br />
-                                                    <span style={{ fontSize: "small" }}>Thank you for calling</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    )
-                                } else if ((message.status === "Miss" || message.status === "Reject") && message.senderId === Number(receiverId)) {
-                                    return (
-                                        <div key={message.id} className='me-5 pb-2 d-flex flex-wrap align-items-center'>
-                                            <a href='#' className='border d-flex p-1 ps-3 pe-3 rounded align-items-center text-decoration-none'>
-                                                <div className='me-2'>
-                                                    <img src="/assets/contact/miss-call.png" className='img-fluid' style={{ height: "40px", borderRadius: "50%" }} />
-                                                </div>
-                                                <div className='text-center'>
-                                                    <b className='fw-bold'>{message.status}ed call</b><br />
-                                                    <span style={{ fontSize: "small" }}>Tap to call back</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    );
-                                } else if ((message.status === "Miss" || message.status === "Reject") && message.receiverId === Number(receiverId)) {
-                                    <div key={message.id} className='ms-5 pb-2 d-flex flex-wrap justify-content-end align-items-center'>
-                                        <a href='#' className='border d-flex p-1 ps-3 pe-3 rounded align-items-center text-decoration-none text-secondary'>
-                                            <div className='me-2'>
-                                                <img src="/assets/contact/miss-call2.png" className='img-fluid' style={{ height: "40px", borderRadius: "50%" }} />
-                                            </div>
-                                            <div className='text-center'>
-                                                <b className='fw-bold'>{message.status}ed call</b><br />
-                                                <span style={{ fontSize: "small" }}>Tap to call again</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                } else if (message.status === "Connecting") {
-                                    return (
-                                        <div key={message.id} className='ms-5 pb-2 d-flex flex-wrap justify-content-end align-items-center'>
-                                            <a href='#' className='border d-flex p-1 ps-3 pe-3 rounded align-items-center text-decoration-none text-secondary'>
-                                                <div className='me-2'>
-                                                    <img src="/assets/contact/connecting.png" className='img-fluid' style={{ height: "40px", borderRadius: "50%" }} />
-                                                </div>
-                                                <div className='text-center'>
-                                                    <b className='fw-bold'>Calling</b><br />
-                                                    <span style={{ fontSize: "small" }}>Connecting ...</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    );
                                 }
-                            })
-                            }
+
+                                return null;
+                            })}
                         </div>
-                        <div className="input-container p-3 d-flex">
-                            <a href="#" onClick={cancelEditClick} style={{ fontSize: "small" }} className={`${cancelEdit} border rounded round d-flex text-center align-items-center text-bg-warning text-decoration-none`}>Cancel edit</a>
-                            <form className="input-group w-100" onSubmit={e => { formSendMes(mesSend, e) }}>
-                                <input type="text" className="form-control" placeholder="Input message here..." required
-                                    value={mesContent} onChange={e => { setMesContent(e.target.value) }} />
-                                <div className="input-group-append">
-                                    <button className="btn btn-primary" type="submit">Send</button>
+
+                        {/* INPUT */}
+                        <div className="modern-chat-input">
+                            {mesSend && (
+                                <div className="edit-indicator">
+                                    Editing message...
+                                    <span onClick={cancelEditClick}>Cancel</span>
                                 </div>
+                            )}
+
+                            <form onSubmit={e => formSendMes(mesSend, e)}>
+                                <input
+                                    type="text"
+                                    placeholder="Type a message..."
+                                    value={mesContent}
+                                    onChange={e => setMesContent(e.target.value)}
+                                    required
+                                />
+                                <button type="submit">
+                                    <i className="fa-solid fa-paper-plane"></i>
+                                </button>
                             </form>
                         </div>
+
                     </div>
                 </div>
 
-                <ListContact 
+
+                <ListContact
                     chatBox={chatBox}
                 />
             </div>
